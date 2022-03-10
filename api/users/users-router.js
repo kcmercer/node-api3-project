@@ -64,7 +64,7 @@ router.delete('/:id', validateUserId, (req, res, next) => {
     .catch(next)
 });
 
-router.get('/:id/posts', validateUserId, validatePost, (req, res, next) => {
+router.get('/:id/posts', validateUserId, (req, res, next) => {
   // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
 
@@ -75,19 +75,19 @@ router.get('/:id/posts', validateUserId, validatePost, (req, res, next) => {
     .catch(next)
 });
 
-router.post('/:id/posts',validateUserId, validatePost, (req, res, next) => {
+router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   // RETURN THE NEWLY CREATED USER POST
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
 
-  Posts.insert({ userID: req.params.id, text: req.body.text})
+  Posts.insert({ user_id: req.params.id, text: req.body.text})
     .then(newPost => {
       res.status(201).json(newPost)
     })
     .catch(next)
 });
 
-router.use((error, req, res, next) => {
+router.use((error, req, res) => {
   res.status(error.status || 500).json({
     message: `Error: ${error.message}`,
     stack: error.stack
